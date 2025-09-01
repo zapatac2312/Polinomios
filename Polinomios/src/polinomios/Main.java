@@ -1,19 +1,20 @@
-
 package polinomios;
+
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
         int opc =0;
         Forma1 F1;
-
-        IngresarPoli();
+        IngresarTermino(Reconstruir(Recortar(IngresarPoli())),"45","8");
     }
 
     public static String[] IngresarPoli(){
         //Scanner sc= new Scanner(System.in);
 
-        String s="",pol = "-9x^6+12x^4-x^2+1";
+        String s="",pol = "5x^4+2x^6-10x+7+34x^8-23x^2+45x^3";
         int j=0;
         char Vc[] =pol.toCharArray();
         String Vs[] = new String[Vc.length];
@@ -29,7 +30,7 @@ public class Main {
                 //Aquí verificamos si el caractér a evaluar es un - o un dígito, pues estos sí los tenemos que concatenar
                 {
                     if (Character.isDigit(Vc[i])){
-                        if( i + 1 == Vc.length || Vc[i+1] == '-' ){
+                        if( i + 1 == Vc.length || Vc[i+1] == '-'|| Vc[i+1] == '+' ){
                             //Luego en caso de que sea en un dígito, verificamos primero si alcanzamos el final del vector Vc, en caso de que sí o en caso de que el siguiente término sea un signo -, vamos a cortar la cadena y anexarla a Vs
                             s= s+Vc[i];
                             Vs[j]=s;
@@ -55,8 +56,9 @@ public class Main {
                                 Vs[j]=s+"1";
                                 j++;
                                 s="";
-                                //Este condicional valida que el string s solamente tenga un -, en el caso de que
+                                //Este condicional valida que el string s solamente tenga un - y el siguiente caracter no sea un entero, es ese caso significa que la x tiene 1 como coeficiente
                             }else if(s.isBlank()){
+                                //Este condicional valida que la x esté sola, sin signo negativo ni un entero antes para expresar un coeficiente mayor a 1, en ese caso significa que la x tiene 1 como coeficiente
                                 Vs[j]=s+"1";
                                 j++;
                                 s="";
@@ -88,6 +90,82 @@ public class Main {
             System.out.print("| "+Vs[i]+" |");
         }
         return Vs;
+    }
+
+    public static String[] Recortar(String[] VsInicial){
+
+        int contador= 0;
+        for (int i = 0; i < VsInicial.length; i++) {
+            if (VsInicial[i] != null ){
+                contador ++;
+            }
+        }
+        System.out.println("\n");
+        String[] VsFinal = new String[contador];
+        for (int i = 0; i < contador; i++) {
+           VsFinal[i]= VsInicial[i];
+           System.out.print("| "+VsFinal[i]+" |");
+        }
+        return VsFinal;
+    }
+
+    public static String[] Reconstruir(String[] VsInicial){
+        //int contador=0;
+        String tempExp;
+        for (int i = 0; i < VsInicial.length; i++) {
+            for (int j = 1; j < VsInicial.length-2; j+=2) {
+                if (Integer.parseInt(VsInicial[j]) < Integer.parseInt(VsInicial[j+2])){
+                        tempExp = VsInicial[j+2];
+                        VsInicial[j+2]= VsInicial[j];
+                        VsInicial[j]= tempExp;
+
+                        String tempCoe = VsInicial[j+1];
+                        VsInicial[j+1]=VsInicial[j-1];
+                        VsInicial[j-1]= tempCoe;
+                }
+            }
+        }
+        System.out.println("\n");
+        for (String s : VsInicial) {
+            System.out.print("| " + s + " |");
+        }
+        return VsInicial;
+    }
+
+    public static String[] IngresarTermino(String[] VsInicial, String coeficiente, String exponente){
+        String[] VsFinal = null;
+        boolean reconstruir = false;
+
+        for (int i = 1; i < VsInicial.length; i+=2) {
+            if(Objects.equals(VsInicial[i], exponente)){
+                int numero1 = Integer.parseInt(VsInicial[i-1]);
+                int numero2 = Integer.parseInt(coeficiente);
+                int resultado = numero2+numero1;
+
+                VsInicial[i-1] = String.valueOf(resultado);
+                VsFinal = new String[VsInicial.length];
+                for (int j = 0; j < VsInicial.length; j++) {
+                    VsFinal[j]= VsInicial[j];
+                }
+                break;
+            }else{
+                reconstruir = true;
+                VsFinal = new String[VsInicial.length+2];
+                VsFinal[VsFinal.length-1]=exponente;
+                VsFinal[VsFinal.length-2]=coeficiente;
+                for (int j = 0; j < VsInicial.length; j++) {
+                    VsFinal[j]= VsInicial[j];
+                }
+            }
+        }
+        if (reconstruir){
+            Reconstruir(VsFinal);
+        }
+        System.out.println("\n");
+        for (String s : VsFinal) {
+            System.out.print("| " + s + " |");
+        }
+        return VsFinal;
     }
 }
 
