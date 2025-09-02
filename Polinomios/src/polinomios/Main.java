@@ -7,14 +7,13 @@ public class Main {
     public static void main(String[] args) {
 
         int opc =0;
-        Forma1 F1;
-        IngresarTermino(Reconstruir(Recortar(IngresarPoli())),"45","8");
+        Forma1 F1 = new Forma1(ObtenerGrado(Reconstruir(Recortar(IngresarPoli()))), Reconstruir(Recortar(IngresarPoli())));
     }
 
     public static String[] IngresarPoli(){
         //Scanner sc= new Scanner(System.in);
 
-        String s="",pol = "5x^4+2x^6-10x+7+34x^8-23x^2+45x^3";
+        String s="",pol = "5x^4+2x^6-10x+7+34x^8-23x^2+45x^3+456x^7";
         int j=0;
         char Vc[] =pol.toCharArray();
         String Vs[] = new String[Vc.length];
@@ -85,10 +84,6 @@ public class Main {
                 }
             }
         }
-        System.out.println("\n");
-        for (int i = 0; i < Vc.length; i++) {
-            System.out.print("| "+Vs[i]+" |");
-        }
         return Vs;
     }
 
@@ -124,10 +119,6 @@ public class Main {
                         VsInicial[j-1]= tempCoe;
                 }
             }
-        }
-        System.out.println("\n");
-        for (String s : VsInicial) {
-            System.out.print("| " + s + " |");
         }
         return VsInicial;
     }
@@ -166,6 +157,18 @@ public class Main {
             System.out.print("| " + s + " |");
         }
         return VsFinal;
+    }
+
+    public static int ObtenerGrado(String[] Vs){
+        int mayorExponente= Integer.parseInt(Vs[1]);
+
+        for (int j = 1; j < Vs.length; j += 2) {
+            int exponenteActual = Integer.parseInt(Vs[j]);
+            if (exponenteActual > mayorExponente) {
+                mayorExponente = exponenteActual;
+            }
+        }
+        return mayorExponente;
     }
 }
 

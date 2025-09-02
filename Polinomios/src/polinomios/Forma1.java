@@ -1,5 +1,7 @@
 package polinomios;
 
+import static polinomios.Main.*;
+
 public class Forma1 {
 //atributos
     private int Du, VPF1[];
@@ -9,10 +11,28 @@ public class Forma1 {
         Du = 0;
     }
 
-    public Forma1(int grado) {
+    public Forma1(int grado, String[] Vs){
+
+        int contador = 1;
+        int exponente= grado;
         Du = grado +1;
         VPF1 = new int[Du+1];
         VPF1[0]= grado;
+
+        for (int i = 1; i < Vs.length; i+=2) {
+            if (Integer.parseInt(Vs[i])==grado){
+                VPF1[contador] = Integer.parseInt(Vs[i-1]);
+            }else{
+                VPF1[contador] = 0;
+                i-=2;
+            }
+            grado--;
+            contador++;
+        }
+        System.out.println("\n");
+        for (int s : VPF1) {
+            System.out.print("| " + s + " |");
+        }
     }
 
     public int getDu() {
@@ -37,6 +57,10 @@ public class Forma1 {
 
     public void setVPF1(int d, int i) {
         this.VPF1[i] = d;
+    }
+
+    public void ConstruirVPF1() {
+
     }
 }
 
