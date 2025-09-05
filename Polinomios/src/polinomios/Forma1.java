@@ -11,28 +11,10 @@ public class Forma1 {
         Du = 0;
     }
 
-    public Forma1(int grado, String[] Vs){
-
-        int contador = 1;
-        int exponente= grado;
+    public Forma1(int grado){
         Du = grado +1;
         VPF1 = new int[Du+1];
         VPF1[0]= grado;
-
-        for (int i = 1; i < Vs.length; i+=2) {
-            if (Integer.parseInt(Vs[i])==grado){
-                VPF1[contador] = Integer.parseInt(Vs[i-1]);
-            }else{
-                VPF1[contador] = 0;
-                i-=2;
-            }
-            grado--;
-            contador++;
-        }
-        System.out.println("\n");
-        for (int s : VPF1) {
-            System.out.print("| " + s + " |");
-        }
     }
 
     public int getDu() {
@@ -59,8 +41,31 @@ public class Forma1 {
         this.VPF1[i] = d;
     }
 
-    public void ConstruirVPF1() {
+    public void ConstruirVPF1(String Vs[]) {
+        int contador = 1;
+        int grado= this.Du-1;
 
+        for (int i = 1; i < Vs.length; i+=2) {
+            if (Integer.parseInt(Vs[i])==grado){
+                VPF1[contador] = Integer.parseInt(Vs[i-1]);
+            }else{
+                VPF1[contador] = 0;
+                i-=2;
+            }
+            grado--;
+            contador++;
+        }
+    }
+    public void imprimirVectorForma1_2() {
+        if (VPF1 == null) {
+            System.out.println("El vector está vacío (null).");
+            return;
+        }
+        System.out.print("Vector: ");
+        for (int numero : VPF1) {
+            System.out.print("| " + numero + " |");
+        }
+        System.out.println();
     }
 }
 
