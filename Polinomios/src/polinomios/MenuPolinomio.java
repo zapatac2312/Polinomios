@@ -28,7 +28,9 @@ public class MenuPolinomio {
 
             switch (opcion) {
                 case 1:
-                    polinomioVector = ob.IngresarPoli();
+                    System.out.print("Ingrese el polinomio que desea operar: ");
+                    String pol = scanner.nextLine();
+                    polinomioVector = ob.IngresarPoli(pol);
                     polinomioVector = ob.Recortar(polinomioVector);
                     System.out.println("Polinomio inicializado y procesado:");
                     ob.imprimirVectorString(polinomioVector);
@@ -122,12 +124,67 @@ public class MenuPolinomio {
                                     Forma1 Vp1= new Forma1(ob.ObtenerGrado(polinomioVector));
                                     Vp1.ConstruirVPF1(polinomioVector);
                                     Vp1.imprimirVectorForma1_2();
+                                    int opcionSubMenuForma1 = 0;
+                                    do {
+                                        System.out.println("\n--- SUBMENÚ-FORMA 1: ELEGIR FORMA DE OPERACIÓN ---");
+                                        System.out.println("1. Sumar forma 1");
+                                        System.out.println("2. Multiplicar forma 1");
+                                        System.out.print("--> Digite una opción: ");
+
+                                        opcionSubMenuForma1 = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        switch(opcionSubMenuForma1) {
+                                            case 1:
+                                                System.out.println("\n--- Suma en Forma 1 ---");
+                                                Vp1.SumarPoli(ob.operarSegundoPoli());
+                                                Vp1.imprimirVectorForma1Operqado();
+                                                break;
+                                            case 2:
+                                                System.out.println("\n--- Multiplicacion en Forma 1 ---");
+                                                Vp1.MultiplicarPoli(ob.operarSegundoPoli());
+                                                Vp1.imprimirVectorForma1Operqado();
+                                                break;
+                                            default:
+                                                System.out.println("Opción no válida.");
+                                                break;
+                                        }
+                                    } while (opcionSubMenuForma1 != 2);
+
                                     break;
                                 case 2:
                                     System.out.println("\n--- Representación en Forma 2 ---");
                                     Forma2 Vp2= new Forma2(ob.ContarTerminos(polinomioVector));
-                                    Vp2.Construir(polinomioVector);
+                                    Vp2.ConstruirVPF2(polinomioVector);
                                     Vp2.imprimirVectorForma1_2();
+
+                                    int opcionSubMenuForma2 = 0;
+                                    do {
+                                        System.out.println("\n--- SUBMENÚ-FORMA 1: ELEGIR FORMA DE OPERACIÓN ---");
+                                        System.out.println("1. Sumar forma 1");
+                                        System.out.println("2. Multiplicar forma 1");
+                                        System.out.print("--> Digite una opción: ");
+
+                                        opcionSubMenuForma2 = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        switch(opcionSubMenuForma2) {
+                                            case 1:
+                                                System.out.println("\n--- Suma en Forma 2 ---");
+                                                Vp2.SumarPoli2(ob.operarSegundoPoli());
+                                                Vp2.imprimirVectorForma2Operqado();
+                                                break;
+                                            case 2:
+                                               /* System.out.println("\n--- Multiplicacion en Forma 1 ---");
+                                                Vp1.MultiplicarPoli(ob.operarSegundoPoli());
+                                                Vp1.imprimirVectorForma1Operqado();
+                                                break;*/
+                                            default:
+                                                System.out.println("Opción no válida.");
+                                                break;
+                                        }
+                                    } while (opcionSubMenuForma2 != 2);
+
                                     break;
                                 case 3:
                                     System.out.println("\n--- Representación en Forma 3 ---");

@@ -1,15 +1,15 @@
 package polinomios;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class LogicaPolinomios {
 
-    public String[] IngresarPoli() {
-        //Scanner sc= new Scanner(System.in);
+    public String[] IngresarPoli(String pol) {
 
-        String s = "", pol = "5x^4+2x^6-10x+34x^8-23x^2+45x^3";
+        String s = "";
         int j = 0;
         char Vc[] = pol.toCharArray();
-        String Vs[] = new String[Vc.length];
+        String Vs[] = new String[Vc.length+1];
 
         for (int i = 0; i < Vc.length; i++) {
             if (Vc[i] != '+') {
@@ -45,22 +45,21 @@ public class LogicaPolinomios {
                                 j++;
                                 s = "";
                                 //Este condicional valida que el string s solamente tenga un - y el siguiente caracter no sea un entero, es ese caso significa que la x tiene 1 como coeficiente
-                            } else if (s.isBlank()) {
-                                //Este condicional valida que la x esté sola, sin signo negativo ni un entero antes para expresar un coeficiente mayor a 1, en ese caso significa que la x tiene 1 como coeficiente
-                                Vs[j] = s + "1";
-                                j++;
-                                s = "";
                             } else {
                                 Vs[j] = s;
                                 j++;
                                 s = "";
                             }
-                        }
-                        if (Vc[i] == 'x' || Vc[i] == 'X') {
-                            if (i + 1 == Vc.length || Vc[i + 1] == '-' || Vc[i + 1] == '+') {
-                                //En caso de que sea una x el valor que estamos evaluando, primero evaluamos que esa X sea el último valor del arreglo, luego evaluamos que el siguiente valor sea un signo que indique el inicio de otro termino, en caso de que alguna de esas condiciones se cumpla significa que el grado del término que estamos evaluando es 1 y lo guardamos en la siguiente posicion de Vs
+                        }else {
+                            //Este condicional valida que la x esté sola, sin signo negativo ni un entero antes para expresar un coeficiente mayor a 1, en ese caso significa que la x tiene 1 como coeficiente
+                            if (i + 1 == Vc.length || Vc[i + 1] == '-' || Vc[i + 1] == '+' ){
                                 Vs[j] = "1";
+                                Vs[j+1]="1";
+                                j+=2;
+                            }else {
+                                Vs[j] = s + "1";
                                 j++;
+                                s = "";
                             }
                         }
                     }
@@ -210,13 +209,57 @@ public class LogicaPolinomios {
         System.out.println();
     }
 
-
     public int ContarTerminos(String[] Vs){
-        // Si el vector es nulo o está vacío, no tiene términos.
         if (Vs == null || Vs.length == 0) {
             return 0;
         }
         return Vs.length / 2;
+    }
+
+    public String[] AgruparTerminosSemejantes(String[] Vs) {
+        if (Vs == null || Vs.length == 0) {
+            return new String[0];
+        }
+
+        String[] resultadoTemp = new String[Vs.length];
+        int tamañoActual = 0;
+
+        for (int i = 0; i < Vs.length; i += 2) {
+            String coefActual = Vs[i];
+            String expActual = Vs[i + 1];
+            boolean exponenteEncontrado = false;
+
+            for (int k = 1; k < tamañoActual; k += 2) {
+                if (Objects.equals(resultadoTemp[k], expActual)) {
+                    int coefExistente = Integer.parseInt(resultadoTemp[k - 1]);
+                    int coefNuevo = Integer.parseInt(coefActual);
+
+                    resultadoTemp[k - 1] = String.valueOf(coefExistente + coefNuevo);
+
+                    exponenteEncontrado = true;
+                    break;
+                }
+            }
+            if (!exponenteEncontrado) {
+                resultadoTemp[tamañoActual] = coefActual;
+                resultadoTemp[tamañoActual + 1] = expActual;
+                tamañoActual += 2;
+            }
+        }
+        String[] resultadoFinal = new String[tamañoActual];
+        for (int i = 0; i < tamañoActual; i++) {
+            resultadoFinal[i] = resultadoTemp[i];
+        }
+        return resultadoFinal;
+    }
+
+    public String[] operarSegundoPoli(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el segundo polinomio que desea operar : ");
+        String pol2 = scanner.nextLine();
+
+        LogicaPolinomios ob= new LogicaPolinomios();
+        return ob.Reconstruir(ob.Recortar(ob.IngresarPoli(pol2)));
     }
 
 }
