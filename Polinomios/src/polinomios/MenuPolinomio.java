@@ -21,7 +21,12 @@ public class MenuPolinomio {
             System.out.println("7. Contar términos del polinomio");
             System.out.println("8. Mostrar Polinomio en Diferentes Formas");
             System.out.println("9. Salir");
-            System.out.print("--> Digite una opción: ");
+            System.out.println();
+            System.out.println("Su polinomio es: " );
+            ob.imprimirVectorString(ob.getVsOriginal());
+            System.out.println();
+            System.out.println("--> Digite una opción: ");
+
 
             opcion = scanner.nextInt();
             scanner.nextLine();
@@ -39,7 +44,7 @@ public class MenuPolinomio {
                 case 2:
                     if (polinomioVector == null) {
                         System.out.println("Error: Primero debe ingresar un polinomio (Opción 1).");
-                    } else {
+                    } else if (ob.isOrdenado()){
                         System.out.print("Ingrese el coeficiente del nuevo término: ");
                         String coef = scanner.nextLine();
                         System.out.print("Ingrese el exponente del nuevo término: ");
@@ -47,40 +52,52 @@ public class MenuPolinomio {
                         polinomioVector = ob.IngresarTermino(polinomioVector, coef, exp);
                         System.out.println("Polinomio actualizado:");
                         ob.imprimirVectorString(polinomioVector);
+                    }else  {
+                        System.out.println("--Debe ordernar su vector antes de acceder a esta funcion--");
+                        System.out.println("--Opcion 6<--- --");
                     }
                     break;
 
                 case 3:
                     if (polinomioVector == null) {
                         System.out.println("Error: Primero debe ingresar un polinomio (Opción 1).");
-                    } else {
+                    } else if (ob.isOrdenado()){
                         System.out.print("Ingrese el exponente del término a eliminar: ");
                         String expEliminar = scanner.nextLine();
                         polinomioVector = ob.EliminarTermino(polinomioVector, expEliminar);
                         System.out.println("Polinomio después de eliminar:");
                         ob.imprimirVectorString(polinomioVector);
-                    }
-                    break;
+                    }else  {
+                    System.out.println("--Debe ordernar su vector antes de acceder a esta funcion--");
+                    System.out.println("--Opcion 6<--- --");
+                }
+                break;
 
                 case 4:
                     if (polinomioVector == null) {
                         System.out.println("Error: Primero debe ingresar un polinomio (Opción 1).");
-                    } else {
+                    } else if (ob.isOrdenado()){
                         System.out.print("Ingrese el valor de X para evaluar el polinomio: ");
                         int valorX = scanner.nextInt();
                         scanner.nextLine(); // Limpiar buffer
                         int resultado = ob.EvaluarPolinomio(polinomioVector, valorX);
                         System.out.println("El resultado del polinomio para x = " + valorX + " es: " + resultado);
-                    }
+                    }else  {
+                    System.out.println("--Debe ordernar su vector antes de acceder a esta funcion--");
+                    System.out.println("--Opcion 6<--- --");
+                }
                     break;
 
                 case 5:
                     if (polinomioVector == null) {
                         System.out.println("Error: Primero debe ingresar un polinomio (Opción 1).");
-                    } else {
+                    } else if (ob.isOrdenado()){
                         int grado = ob.ObtenerGrado(polinomioVector);
                         System.out.println("El grado del polinomio es: " + grado);
-                    }
+                    }else  {
+                    System.out.println("--Debe ordernar su vector antes de acceder a esta funcion--");
+                    System.out.println("--Opcion 6<--- --");
+                }
                     break;
 
                 case 6:
@@ -105,7 +122,7 @@ public class MenuPolinomio {
                 case 8:
                     if (polinomioVector == null) {
                         System.out.println("Error: Primero debe ingresar un polinomio (Opción 1).");
-                    } else {
+                    } else if (ob.isOrdenado()){
                         int opcionSubMenu = 0;
                         do {
                             System.out.println("\n--- SUBMENÚ: ELEGIR FORMA DE VISUALIZACIÓN ---");
@@ -200,7 +217,10 @@ public class MenuPolinomio {
                                     break;
                             }
                         } while (opcionSubMenu != 4);
-                    }
+                    }else {
+                    System.out.println("--Debe ordernar su vector antes de acceder a esta funcion--");
+                    System.out.println("--Opcion 6<--- --");
+                }
                     break;
 
                 case 9:

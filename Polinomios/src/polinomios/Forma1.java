@@ -186,4 +186,3 @@ public class Forma1 {
         return Vs;
     }
 }
-

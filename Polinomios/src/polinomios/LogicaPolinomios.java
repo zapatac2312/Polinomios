@@ -4,6 +4,30 @@ import java.util.Scanner;
 
 public class LogicaPolinomios {
 
+    private boolean Ordenado;
+    private String VsOriginal[];
+
+    public boolean isOrdenado() {
+        return Ordenado;
+    }
+
+    public void setOrdenado(boolean ordenado) {
+        Ordenado = ordenado;
+    }
+
+    public String[] getVsOriginal() {
+        return VsOriginal;
+    }
+
+    public void setVsOriginal(String[] vsOriginal) {
+        VsOriginal = vsOriginal;
+    }
+
+    public LogicaPolinomios(){
+        Ordenado = false;
+        this.VsOriginal = null;
+    }
+
     public String[] IngresarPoli(String pol) {
 
         String s = "";
@@ -72,6 +96,8 @@ public class LogicaPolinomios {
                 }
             }
         }
+
+        this.VsOriginal = Reconstruir(Vs);
         return Vs;
     }
 
@@ -106,6 +132,8 @@ public class LogicaPolinomios {
                 }
             }
         }
+        this.VsOriginal= VsFinal;
+        this.Ordenado = true;
         return VsFinal;
     }
 
@@ -198,12 +226,13 @@ public class LogicaPolinomios {
     }
 
     public void imprimirVectorString(String[] vector) {
-        if (vector == null) {
-            System.out.println("El vector está vacío (null).");
+
+        if (VsOriginal == null) {
+            System.out.println("El Polinomio no existe... aún");
             return;
         }
         System.out.print("Vector: ");
-        for (String s : vector) {
+        for (String s : VsOriginal) {
             System.out.print("| " + s + " |");
         }
         System.out.println();
@@ -261,5 +290,4 @@ public class LogicaPolinomios {
         LogicaPolinomios ob= new LogicaPolinomios();
         return ob.Reconstruir(ob.Recortar(ob.IngresarPoli(pol2)));
     }
-
 }
