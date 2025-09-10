@@ -37,7 +37,7 @@ public class LogicaPolinomios {
                     }
                 } else {
                     //Entramos a este else en caso de que el valor no sea uno que tengamos que concatenar y anexar, en este caso un - o un entero. Más abajo vamos a verificar el simbolo ^
-                    if (Vc[i] == 'x' || Vc[i] == 'X' || Vc[i] == '+') {
+                    if (Vc[i] == 'x' || Vc[i] == 'X') {
                         if (!s.isBlank()) {
                             //En caso de que sea una x el valor que estamos evaluando y que el string S no este vacio, lo anexamos a Vs
                             if (s.equals("-") && !Character.isDigit(Vc[i])) {
@@ -45,7 +45,12 @@ public class LogicaPolinomios {
                                 j++;
                                 s = "";
                                 //Este condicional valida que el string s solamente tenga un - y el siguiente caracter no sea un entero, es ese caso significa que la x tiene 1 como coeficiente
-                            } else {
+                            } else if( Vc[i + 1] == '-' || Vc[i + 1] == '+' ){
+                                Vs[j] = s;
+                                Vs[j+1] = "1";
+                                j+=2;
+                                s = "";
+                            }else{
                                 Vs[j] = s;
                                 j++;
                                 s = "";
@@ -72,7 +77,7 @@ public class LogicaPolinomios {
                 }
             }
         }
-        return Vs;
+        return Reconstruir(Vs);
     }
 
     public String[] Recortar(String[] VsInicial) {
@@ -220,11 +225,12 @@ public class LogicaPolinomios {
         if (Vs == null || Vs.length == 0) {
             return new String[0];
         }
+        LogicaPolinomios ob = new LogicaPolinomios();
 
         String[] resultadoTemp = new String[Vs.length];
         int tamañoActual = 0;
 
-        for (int i = 0; i < Vs.length; i += 2) {
+        for (int i = 0; i < ob.ContarTerminos(Vs)*2; i += 2) {
             String coefActual = Vs[i];
             String expActual = Vs[i + 1];
             boolean exponenteEncontrado = false;

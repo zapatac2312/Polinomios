@@ -48,12 +48,12 @@ public class Forma1 {
     }
 
     public void ConstruirVPF1(String Vs[]) {
+        LogicaPolinomios ob= new LogicaPolinomios();
         int contador = 1;
-        int grado= this.Du-1;
+        int grado;
         this.Vs = Vs;
 
         if (multiplicado || sumado){
-            LogicaPolinomios ob= new LogicaPolinomios();
             grado = ob.ObtenerGrado(Vs);
             VPF1Operado = new int [grado+2];
             VPF1Operado[0]= grado;
@@ -69,6 +69,7 @@ public class Forma1 {
                 contador++;
             }
         }else {
+            grado = ob.ObtenerGrado(Vs);
             for (int i = 1; i < Vs.length; i+=2) {
                 if (Integer.parseInt(Vs[i])==grado){
                     VPF1[contador] = Integer.parseInt(Vs[i-1]);
@@ -182,7 +183,7 @@ public class Forma1 {
             resultadoFinal[i] = resultadoTemp[i];
         }
         multiplicado = true;
-        ConstruirVPF1( ob.Reconstruir(ob.AgruparTerminosSemejantes(resultadoFinal)));
+        ConstruirVPF1( ob.AgruparTerminosSemejantes(ob.Reconstruir(resultadoFinal)));
         return Vs;
     }
 }

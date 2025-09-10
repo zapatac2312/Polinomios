@@ -113,4 +113,50 @@ public class Forma2 {
         }
         return Vs;
     }
+
+    public String[] MultiplicarPoli(String[] Vs2) {
+
+        String[] resultadoTemp = new String[Vs.length * Vs2.length];
+        LogicaPolinomios ob= new LogicaPolinomios();
+        int tamañoActual = 0;
+
+        for (int i = 0; i < Vs.length; i += 2) {
+            int coef1 = Integer.parseInt(Vs[i]);
+            int exp1 = Integer.parseInt(Vs[i + 1]);
+
+            for (int j = 0; j < Vs2.length; j += 2) {
+                int coef2 = Integer.parseInt(Vs2[j]);
+                int exp2 = Integer.parseInt(Vs2[j + 1]);
+
+                int nuevoCoef = coef1 * coef2;
+                int nuevoExp = exp1 + exp2;
+
+                boolean exponenteEncontrado = false;
+                for (int k = 1; k < tamañoActual; k += 2) {
+                    if (Integer.parseInt(resultadoTemp[k]) == nuevoExp) {
+                        int coefExistente = Integer.parseInt(resultadoTemp[k - 1]);
+                        resultadoTemp[k - 1] = String.valueOf(coefExistente + nuevoCoef);
+                        exponenteEncontrado = true;
+                        break;
+                    }
+                }
+                if (!exponenteEncontrado) {
+                    resultadoTemp[tamañoActual] = String.valueOf(nuevoCoef);
+                    resultadoTemp[tamañoActual + 1] = String.valueOf(nuevoExp);
+                    tamañoActual += 2;
+                }
+            }
+        }
+        this.Vs = new String[tamañoActual+1];
+        int numeroDeTerminos=ob.ContarTerminos(resultadoTemp);
+        Vs[0]= String.valueOf(numeroDeTerminos);
+        resultadoTemp = ob.Reconstruir(resultadoTemp);
+        resultadoTemp = ob.AgruparTerminosSemejantes(resultadoTemp);
+
+        for (int i = 1; i < tamañoActual+1; i++) {
+            Vs[i] = resultadoTemp[i-1];
+        }
+        return Vs;
+    }
+
 }
